@@ -1,23 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Postcards from "./components/Postcards";
+import "./App.css";
+import SignupModal from "./components/SignupModal";
+import { database } from "./Firebase";
+import UploadPhotos from "./components/UploadPhotos";
 
 function App() {
+  const [postData, setPostData] = useState([]);
+
+  const [user, setUser] = useState("");
+
+  const [pass, setPass] = useState("");
+
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    database.collection("postData").onSnapshot((snapshot) => {
+      setPostData(snapshot.docs.map((doc) => doc.data()));
+    });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="app__header">
+        <img
+          src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
+          alt="header"
+        />
+        <UploadPhotos />
+        <SignupModal
+          changeUser={(e) => setUser(e.target.value)}
+          changePass={(e) => setPass(e.target.value)}
+          changeEmail={(e) => setEmail(e.target.value)}
+          user={user}
+          pass={pass}
+          email={email}
+        />
+      </div>
+      {postData.map((x) => (
+        <Postcards username={x.username} image={x.image} comment={x.comment} />
+      ))}
     </div>
   );
 }
