@@ -12,3 +12,9 @@
   object-fit: contain;
   border-bottom: 1px solid lightgray;
 }
+
+.app__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
