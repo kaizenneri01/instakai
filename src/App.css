@@ -10,7 +10,7 @@
 .app__header {
   padding: 25px;
   object-fit: contain;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid rgb(206, 203, 203);
 }
 
 .app__container {
